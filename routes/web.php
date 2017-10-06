@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', 'AboutController@index');
+
+Route::get('/blog', 'PostsController@index');
+
+// Route::get('about', ['uses' => 'AboutController@index', 'as' => 'about']);
 
 // Route::get('/', function()
 // {
@@ -25,16 +30,10 @@ Route::get('/hell', function() {
 	return view('greeting');
 });
 
-
-Route::get('/hello', function() {
-	return view('hello.greeting', ['name' => 'Janus']);
-});
-
+// Route::get('/hello', function() {
+// 	return view('hello.greeting', ['name' => 'Janus']);
+// });
 
 // Route::get('/hello', function() {
 // 	return view('hello/greeting', ['name' => 'Janus']);
 // });
-
-Route::get('/about', 'AboutController@index');
-
-// Route::get('about', ['uses' => 'AboutController@index', 'as' => 'about']);

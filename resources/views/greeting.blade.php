@@ -1,24 +1,42 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Stored in resources/views/greeting.blade.php -->
 
-        <title>Laravel</title>
+@extends('layouts.front')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link href="/css/app.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
+@section('content')
+    <p>This is my body content.</p>
+
+    @component('components.alert')
+        <strong>Whoops!</strong> Something went wrong!
+    @endcomponent 
 
 
-            <div class="content">
-                <div class="title">
-                    Greeting
-                </div>
-                
-            </div>
-    </body>
-</html>
+    <!-- Alert with error -->
+  @component('components.mess') 
+
+      @slot('class')
+          alert-danger
+      @endslot
+
+      @slot('title')
+          Something is wrong
+      @endslot
+
+      My components with errors
+  @endcomponent
+
+  <!-- Alert with success -->
+  @component('components.mess') 
+
+      @slot('class')
+          alert-success
+      @endslot
+
+      @slot('title')
+          Success
+      @endslot
+
+      My components with successful response
+  @endcomponent
+   
+
+@endsection
