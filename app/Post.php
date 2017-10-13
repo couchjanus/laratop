@@ -4,17 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post
+class Post extends Model
 {
-    //
-    public $id;
-    public $title;
-    public $content;
- 
-    public function __construct($id, $title, $content)
-    {
-        $this->id  = $id;
-        $this->title   = $title;
-        $this->content = $content;
-    }
+    protected $fillable = ['title', 'content'];
 }
