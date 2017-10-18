@@ -21,3 +21,12 @@ Route::get('/articles', 'ArticlesController@index');
 Route::get('article/{id}', 'ArticlesController@getById')->name('article.detail');
 
 Route::resource('/admin/posts', 'Admin\PostsController');
+Route::resource('/admin/users','Admin\UserController');
+Route::resource('/admin/categories','Admin\CategoriesController');
+Route::resource('/admin/tags','Admin\TagsController');
+
+Route::get('/blog', 'PostsController@index')->name('blog.index');
+Route::get('blog/{id}', 'PostsController@show')->name('blog.show');
+
+Route::get('/list','CategoriesController@index')->name('list.index');
+Route::get('/list/single/{id}','CategoriesController@single')->name('list.single');

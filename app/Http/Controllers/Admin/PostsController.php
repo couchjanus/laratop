@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Post;
+use App\Category;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -27,7 +29,11 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::pluck('name', 'id');
+
+        $tags = Tag::pluck('name', 'id');
+
+        return view('admin.posts.create')->with('categories', $categories)->with('tags', $tags);
     }
 
     /**
@@ -38,6 +44,7 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        
         // $post = $this->validate(request(), [
         //     'title' => 'required',
         //     'content' => 'required'
@@ -51,7 +58,20 @@ class PostsController extends Controller
 
         // Post::create($post);
 
-        Post::create($request->all());
+        // store in the database
+        $post = new Post;
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        
+        $post->category_id = $request->category_id;
+
+        $post->save();
+
+        $post->tags()->sync($request->input('tag_list'), false);
+
+        
+        // Post::create($request->all());
         
         return redirect()->route('posts.index')
                         ->with('success','Post created successfully');
@@ -79,8 +99,11 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::pluck('name', 'id');
+        $tags = Tag::pluck('name', 'id');
         $post = Post::find($id);
-        return view('admin.posts.edit', compact('post'));
+        // return the view and pass in the var we previously created
+        return view('admin.posts.edit')->withPost($post)->withCategories($categories)->withTags($tags);
     }
 
     /**
@@ -92,7 +115,17 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Post::find($id)->update($request->all());
+        // Post::find($id)->update($request->all());
+        $post = Post::find($id);;
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+
+        $post->category_id = $request->input('category_id');
+
+        $post->save();
+        
+        $post->tags()->sync($request->input('tag_list'));
+
         return redirect()->route('posts.index')
                         ->with('success','Post updated successfully');
     }
