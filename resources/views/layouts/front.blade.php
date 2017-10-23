@@ -1,35 +1,41 @@
-<!-- Stored in resources/views/layouts/front.blade.php -->
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
 <head>
-    @include('shared.head')
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+    <div id="app">
+        @include('layouts.partials.mainnav')
+        
+      <div class="container">
 
-    <header class="row">
-        @include('shared.navigation')
-    </header>
+        <div class="row">
+
+            <div class="col-sm-8">
+
+                @yield('content')
+
+            </div>
+        </div>
+      </div>
+    </div>
     
-    <div id="main" class="row">
-
-        @yield('content')
-
-    </div>
-    <div>
-    @section('sidebar')
-            @include('shared.sidebar')
-    @endsection
-    </div>
-
     <footer class="row">
-        @include('shared.footer')
+
     </footer>
 
-</div>
-    @yield('javascript')
-
-    @stack("custom_scripts")
-
+ <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

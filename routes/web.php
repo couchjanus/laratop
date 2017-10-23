@@ -30,3 +30,16 @@ Route::get('blog/{id}', 'PostsController@show')->name('blog.show');
 
 Route::get('/list','CategoriesController@index')->name('list.index');
 Route::get('/list/single/{id}','CategoriesController@single')->name('list.single');
+
+Route::get('login/{provider}',          'Auth\SocialAccountController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\SocialAccountController@handleProviderCallback');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile/{id}', 'HomeController@profile')->name('profile');
+
+Route::get('/send', 'EmailController@index');
+Route::post('/send', 'EmailController@send')->name('send');
+Route::post('/notify', 'EmailController@notify');
+

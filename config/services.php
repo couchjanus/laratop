@@ -14,9 +14,14 @@ return [
     |
     */
 
+    // 'mailgun' => [
+    //     'domain' => env('MAILGUN_DOMAIN'),
+    //     'secret' => env('MAILGUN_SECRET'),
+    // ],
+
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => 'mg.janusnic.com',
+        'secret' => 'key-7774748936a6262deb83dbd2b4bb62fd',
     ],
 
     'ses' => [
