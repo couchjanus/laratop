@@ -49,7 +49,12 @@
                                 </p>
                             @endif
                         </div>
-                        
+
+                        <div class="col-xs-12 form-group">
+                            {!! Form::label('role_list', 'Roles:') !!}
+                            {!! Form::select('role_list[]', $roles, null, ['id' => 'role_list', 'class' => 'form-control', 'multiple', 'style' => 'width: 100%']) !!}
+                            
+                        </div>
                     </div>
                 </div>
             </div>

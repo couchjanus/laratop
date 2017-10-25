@@ -19,6 +19,14 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
+            <li><a href="{{ url('/admin') }}">Home</a></li>
+            <li><a href="{{ url('/admin/roles') }}">Roles</a></li>
+            <li><a href="{{ url('/admin/permissions') }}">Permissions</a></li>
+            <li><a href="{{ url('/admin/users') }}">Users</a></li>
+            <li><a href="{{ url('/admin/posts') }}">Posts</a></li>
+            <li><a href="{{ url('/admin/categories') }}">Categories</a></li>
+            <li><a href="{{ url('/admin/tags') }}">Tags</a></li>
+
                 @if (Auth::check())
                     <li><a href="{{ url('/profile') }}/{{ Auth::user()->id }}">Profile</a></li>
                 @endif
@@ -28,7 +36,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li>navblade</li>
                     <li><a href="{{ route('login') }}">Login</a></li>
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else

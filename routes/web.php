@@ -20,10 +20,21 @@ Route::get('/about', 'AboutController@index');
 Route::get('/articles', 'ArticlesController@index');
 Route::get('article/{id}', 'ArticlesController@getById')->name('article.detail');
 
+Route::group(['middleware' => 'admin'], function() {
+
+    Route::get('admin', [
+        'as' => 'admin.home',
+        'uses' => 'Admin\DashboardController@index'
+    ]);
+});
+
 Route::resource('/admin/posts', 'Admin\PostsController');
 Route::resource('/admin/users','Admin\UserController');
 Route::resource('/admin/categories','Admin\CategoriesController');
 Route::resource('/admin/tags','Admin\TagsController');
+
+Route::resource('/admin/roles', 'Admin\RolesController');
+Route::resource('/admin/permissions', 'Admin\PermissionsController');
 
 Route::get('/blog', 'PostsController@index')->name('blog.index');
 Route::get('blog/{id}', 'PostsController@show')->name('blog.show');

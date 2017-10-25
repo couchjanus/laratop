@@ -3,11 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUsersRequest;
+use App\Http\Requests\UpdateUsersRequest;
 use App\Http\Controllers\Controller;
 use App\User;
 
 class UserController extends Controller
 {
+  
+    // public function __construct() {
+    //     $this->middleware(function($request, $next) {
+    //         if(!(\Auth::user())||(\Auth::user()->roles[0]->id != 1)){
+    //             return abort(404);
+    //         }
+    //         return $next($request);
+    //     });
+    // }
+    
+
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +41,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $roles = \App\Role::pluck('title', 'id');
+
+        return view('admin.users.create')->with('roles', $roles);
     }
 
     /**
@@ -37,21 +52,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        
-        request()->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $user = User::create($request->all());
 
-        return redirect()->route('users.index')
+    public function store(StoreUsersRequest $request)
+        {
+            
+            $user = User::create($request->all());
+
+            $user->roles()->sync($request->input('role_list'), false);
+
+            return redirect()->route('users.index')
                         ->with('success','User created successfully');
+        }
 
-    }
-
+    
     /**
      * Display the specified resource.
      *
@@ -73,10 +86,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
         $user = User::findOrFail($id);
+        $roles = \App\Role::pluck('title', 'id');
         
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user'))->with('roles', $roles);
     }
 
     /**
@@ -86,11 +99,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    
+    public function update(UpdateUsersRequest $request, $id)
     {
-        //
         $user = User::findOrFail($id);
         $user->update($request->all());
+        $user->roles()->sync($request->input('role_list'));
+
         return redirect()->route('users.index');
     }
 
@@ -107,5 +122,21 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Delete all selected User at once.
+     *
+     * @param Request $request
+     */
+    public function massDestroy(Request $request)
+    {
+        if ($request->input('ids')) {
+            $entries = User::whereIn('id', $request->input('ids'))->get();
+
+            foreach ($entries as $entry) {
+                $entry->delete();
+            }
+        }
     }
 }

@@ -41,5 +41,7 @@
                 </tbody>
             </table>
         @endif
+        <hr>
+    {{ $posts->links() }}
     </div>
 @endsection

@@ -52,7 +52,11 @@
                                 </p>
                             @endif
                         </div>
-                        
+                        <div class="col-xs-8 form-group">
+                            {!! Form::label('role_list', 'Roles:') !!}
+                            {!! Form::select('role_list[]', $roles, $user->roles, ['id' => 'role_list', 'class' => 'form-control', 'multiple', 'style' => 'width: 100%']) !!}
+                            
+                        </div>
                     </div>
                     <div class="form-group text-right">
                         <a href="{!! url('/users') !!}" class="btn btn-default raw-left">Cancel</a>
